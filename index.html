@@ -1,41 +1,224 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SYSTEM ANALYZER V3</title>
-    <style>
-        body { background: #00050a; color: #00d4ff; font-family: monospace; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; text-align: center; }
-        .box { border: 1px solid #00d4ff; padding: 20px; border-radius: 15px; background: rgba(0,20,40,0.9); width: 300px; }
-        input { width: 90%; padding: 10px; margin: 10px 0; background: #000; border: 1px solid #00d4ff; color: #00d4ff; text-align: center; }
-        button { width: 100%; padding: 10px; background: #00d4ff; color: #000; border: none; font-weight: bold; cursor: pointer; }
-        .hidden { display: none; }
-        .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-top: 10px; }
-        .cell { width: 50px; height: 50px; background: #0a1a2a; border: 1px solid #1a3a5a; display: flex; align-items: center; justify-content: center; }
-    </style>
-</head>
-<body>
-    <div id="login" class="box">
-        <h2>SECURITY CHECK</h2>
-        <input type="password" id="pass" placeholder="ACCESS KEY">
-        <button onclick="checkPass()">DECRYPT SYSTEM</button>
-    </div>
-    <div id="id-screen" class="box hidden">
-        <h2>USER VALIDATION</h2>
-        <input type="text" id="userid" placeholder="ENTER ID">
-        <button onclick="checkID()">CONNECT</button>
-    </div>
-    <div id="game" class="box hidden">
-        <h3>SERVER ANALYSIS</h3>
-        <div class="grid" id="grid"></div>
-        <button onclick="location.reload()" style="margin-top:10px">RE-SCAN</button>
-    </div>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GEMS MINES VIP</title>
 
-    <script>
-        const ids = ["1658237633", "15711", "admin"];
-        function checkPass() { if(document.getElementById('pass').value === "15711") { document.getElementById('login').classList.add('hidden'); document.getElementById('id-screen').classList.remove('hidden'); } else alert("WRONG KEY"); }
-        function checkID() { if(ids.includes(document.getElementById('userid').value)) { document.getElementById('id-screen').classList.add('hidden'); document.getElementById('game').classList.remove('hidden'); makeGrid(); } else alert("ID NOT FOUND"); }
-        function makeGrid() { const g = document.getElementById('grid'); for(let i=0; i<25; i++) { let c = document.createElement('div'); c.className = 'cell'; c.onclick = () => { c.innerHTML = [2,7,12,18].includes(i) ? '💣' : '💎'; c.style.background = [2,7,12,18].includes(i) ? '#400' : '#046'; }; g.appendChild(c); } }
-    </script>
+<style>
+:root {
+    --gold: #ffd700;
+    --electric-blue: #00d4ff;
+    --bg-dark: #000c18;
+    --vip-red: #ff3e3e;
+}
+
+body {
+    margin: 0;
+    font-family: Arial;
+    background: var(--bg-dark);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+
+.main-title {
+    font-size: 35px;
+    color: var(--gold);
+    margin-bottom: 40px;
+}
+
+.btn-group {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 250px;
+}
+
+button {
+    padding: 15px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn-trial {
+    background: transparent;
+    border: 2px solid white;
+    color: white;
+}
+
+.btn-vip {
+    background: gold;
+    color: black;
+    font-weight: bold;
+}
+
+.auth-screen {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+}
+
+.active {
+    display: flex;
+}
+
+input {
+    padding: 10px;
+    margin: 10px;
+    width: 200px;
+    text-align: center;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 5px;
+}
+
+.cell {
+    width: 50px;
+    height: 50px;
+    background: #1a5a8a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.gem { background: #00d4ff; }
+.bomb { background: red; }
+
+</style>
+</head>
+
+<body>
+
+<div id="landing">
+    <div class="main-title">GEMS MINES VIP</div>
+
+    <div class="btn-group">
+        <button class="btn-trial" onclick="showTrial()">تجربة مجانية</button>
+        <button class="btn-vip" onclick="showVIP()">VIP ACCESS</button>
+    </div>
+</div>
+
+<div id="idScreen" class="auth-screen">
+    <h3>ادخل ID</h3>
+    <input id="idInput">
+    <button onclick="checkID()">استمرار</button>
+</div>
+
+<div id="passScreen" class="auth-screen">
+    <h3>ادخل الباسورد</h3>
+    <input id="passInput" type="password">
+    <button onclick="checkPass()">دخول</button>
+</div>
+
+<div id="gameScreen" class="auth-screen">
+    <div id="grid" class="grid"></div>
+    <p>💎 <span id="score">0</span> | 💣 <span id="bombs">0</span></p>
+</div>
+
+<script>
+
+// IDs
+const allowedIDs = ["1658237633", "1002075"];
+
+// عرض التجربة
+function showTrial() {
+    document.getElementById("landing").style.display = "none";
+    document.getElementById("idScreen").classList.add("active");
+}
+
+// VIP
+function showVIP() {
+    let pass = prompt("ادخل باسورد VIP");
+    if(pass === "102545") {
+        startGame();
+    } else {
+        alert("باسورد غلط");
+    }
+}
+
+// تحقق ID
+function checkID() {
+    let id = document.getElementById("idInput").value;
+
+    if(!allowedIDs.includes(id)) {
+        alert("ID غير صحيح");
+        return;
+    }
+
+    if(localStorage.getItem("used_"+id)) {
+        alert("الـ ID ده اتستخدم قبل كده");
+        return;
+    }
+
+    localStorage.setItem("currentID", id);
+
+    document.getElementById("idScreen").classList.remove("active");
+    document.getElementById("passScreen").classList.add("active");
+}
+
+// تحقق باسورد
+function checkPass() {
+    let pass = document.getElementById("passInput").value;
+
+    if(pass === "15711") {
+        let id = localStorage.getItem("currentID");
+        localStorage.setItem("used_"+id, "true");
+        startGame();
+    } else {
+        alert("باسورد غلط");
+    }
+}
+
+// بدء اللعبة
+let bombs = [0,3];
+let score = 0;
+let bombCount = 0;
+
+function startGame() {
+    document.getElementById("passScreen").classList.remove("active");
+    document.getElementById("gameScreen").classList.add("active");
+
+    let grid = document.getElementById("grid");
+    grid.innerHTML = "";
+    score = 0;
+    bombCount = 0;
+
+    for(let i=0;i<25;i++) {
+        let cell = document.createElement("div");
+        cell.className = "cell";
+
+        cell.onclick = function() {
+            if(cell.innerHTML !== "") return;
+
+            if(bombs.includes(i)) {
+                cell.innerHTML = "💣";
+                cell.classList.add("bomb");
+                bombCount++;
+            } else {
+                cell.innerHTML = "💎";
+                cell.classList.add("gem");
+                score++;
+            }
+
+            document.getElementById("score").innerText = score;
+            document.getElementById("bombs").innerText = bombCount;
+        }
+
+        grid.appendChild(cell);
+    }
+}
+
+</script>
+
 </body>
 </html>
