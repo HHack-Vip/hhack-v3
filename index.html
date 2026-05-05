@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HHACK VIP - PRO ANALYZER</title>
+    <style>
+        :root { --gold: #ffd700; --blue: #00d4ff; --bg: #000c18; --neon: 0 0 15px rgba(0, 212, 255, 0.6); }
+        body, html { margin: 0; padding: 0; font-family: 'Consolas', monospace; background: radial-gradient(circle, #001a33 0%, #00050a 100%); color: white; height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        .signal-container { display: flex; align-items: center; gap: 5px; margin-bottom: 10px; font-size: 12px; color: var(--blue); text-shadow: var(--neon); }
+        .signal-bar { width: 4px; background: var(--blue); border-radius: 2px; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+        #live-feed { width: 100%; height: 50px; background: rgba(0,0,0,0.7); border: 1px solid #004466; border-radius: 8px; margin-top: 15px; font-size: 10px; overflow: hidden; text-align: left; padding: 5px; color: #00ff00; }
+        #mute-btn { position: fixed; top: 20px; right: 20px; z-index: 1000; background: rgba(0,0,0,0.5); border: 1px solid var(--blue); color: white; padding: 10px; border-radius: 50%; cursor: pointer; }
+        .glass-panel { background: rgba(0, 26, 51, 0.95); border: 1px solid var(--blue); box-shadow: var(--neon); border-radius: 20px; padding: 25px; text-align: center; width: 85%; max-width: 350px; }
+        .screen { display: none; width: 100%; flex-direction: column; align-items: center; }
+        .active { display: flex !important; }
+        .btn-3d { width: 100%; padding: 15px; margin: 10px 0; border: none; border-radius: 12px; font-weight: bold; font-size: 18px; cursor: pointer; box-shadow: 0 5px 0 #0088aa; background: linear-gradient(to bottom, #00d4ff, #00aacc); color: #001a33; }
+        .btn-3d:active { transform: translateY(3px); box-shadow: 0 2px 0 #0088aa; }
+        .btn-vip { background: linear-gradient(145deg, #ffd700, #b8860b); box-shadow: 0 5px 0 #8a6d00; color: black; }
+        input { width: 100%; padding: 15px; margin: 15px 0; border-radius: 10px; border: 1px solid var(--blue); background: #000; color: var(--blue); font-size: 20px; text-align: center; box-sizing: border-box; letter-spacing: 3px; }
+        .game-frame { border: 2px solid #004466; padding: 8px; border-radius: 15px; background: #000; }
+        .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+        .cell { width: 55px; height: 55px; border-radius: 8px; cursor: pointer; background: #0a1a2a; border: 1px solid #1a3a5a; display: flex; align-items: center; justify-content: center; }
+    </style>
+</head>
+<body>
+
+    <button id="mute-btn" onclick="toggleMute()">🔊</button>
+    <audio id="bg-music" loop><source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" type="audio/mpeg"></audio>
+    <audio id="click-sound"><source src="https://actions.google.com/sounds/v1/foley/button_click.ogg" type="audio/ogg"></audio>
+    <audio id="bomb-sound"><source src="https://actions.google.com/sounds/v1/science_fiction/low_thud.ogg" type="audio/ogg"></audio>
+
+    <div id="screen-pass" class="screen active">
+        <div class="glass-panel">
+            <h2 style="color:var(--gold)">SYSTEM ENCRYPTION</h2>
+            <input type="password" id="passInput" placeholder="ACCESS KEY">
+            <button class="btn-3d" onclick="validatePass()">DECRYPT SYSTEM</button>
+        </div>
+    </div>
+
+    <div id="screen-choice" class="screen">
+        <div class="glass-panel">
+            <h1 style="color:var(--blue); font-size: 22px;">HHACK ANALYZER V3</h1>
+            <button class="btn-3d" onclick="goToID()">FREE TRIAL MODE</button>
+            <button class="btn-3d btn-vip" onclick="askVipPass()">🐉 VIP SERVER ACCESS</button>
+        </div>
+    </div>
+
+    <div id="screen-id" class="screen">
+        <div class="glass-panel">
+            <h2 style="color:var(--blue)">USER VALIDATION</h2>
+            <input type="password" id="idInput" placeholder="ENTER PLAYER ID">
+            <button class="btn-3d" onclick="validateID()">CONNECT TO SERVER</button>
+        </div>
+    </div>
+
+    <div id="screen-game" class="screen">
+        <div class="signal-container">
+            <div class="signal-bar" style="height:8px"></div>
+            <div class="signal-bar" style="height:12px; animation-delay:0.2s"></div>
+            <div class="signal-bar" style="height:16px; animation-delay:0.4s"></div>
+            <span>ANALYZING SERVER... 99.8%</span>
+        </div>
+        <div class="game-frame"><div class="grid" id="grid"></div></div>
+        <div id="live-feed"><div id="feed-line">> Initializing security bypass...</div></div>
+        <div class="glass-panel" style="margin-top: 15px; padding: 10px; border-radius: 12px;">
+            <p style="margin: 5px 0; font-size: 14px;">GEMS: <span id="s_score" style="color:var(--blue)">0</span> | BOMBS: <span id="s_bombs" style="color:red">0</span></p>
+            <button class="btn-3d" style="background: #004466; color:white; padding: 10px; font-size: 14px;" onclick="initGame()">RE-SCAN GRID</button>
+        </div>
+    </div>
+
+    <script>
+        const allowedIDs = ["user1", "admin", "15711", "10020025", "1002075", "1658237633"];
+        const bgMusic = document.
