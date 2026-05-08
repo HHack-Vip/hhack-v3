@@ -1,111 +1,132 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GEMS MINES VIP - ADVANCED</title>
+    <title>GEMS MINES VIP - ULTIMATE</title>
     <style>
-        :root { --gold: #ffd700; --blue: #00d4ff; --dark: #000a15; }
-        body { margin: 0; font-family: 'Segoe UI', sans-serif; background: radial-gradient(circle, #001f3f 0%, #000 100%); color: white; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
-        
-        .container { background: rgba(0, 10, 20, 0.95); border: 2px solid var(--gold); padding: 35px 25px; border-radius: 25px; text-align: center; width: 330px; box-shadow: 0 15px 40px rgba(0,0,0,0.7); transform: perspective(1000px); animation: fadeIn 0.4s ease-in-out; }
-        .title { font-size: 24px; color: var(--gold); margin-bottom: 25px; font-weight: bold; text-shadow: 0 0 10px rgba(255, 215, 0, 0.4); }
-
-        .btn-3d { width: 100%; padding: 15px; margin: 12px 0; border: none; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 17px; transition: 0.2s; position: relative; }
-        .btn-gold { background: linear-gradient(145deg, #ffd700, #b8860b); color: #000; box-shadow: 0 6px 0 #8a6d00, 0 10px 20px rgba(0,0,0,0.3); }
-        .btn-gold:active { transform: translateY(4px); box-shadow: 0 2px 0 #8a6d00; }
-        .btn-outline { background: #001529; color: white; border: 1px solid var(--blue); box-shadow: 0 6px 0 #000; }
-        .btn-outline:active:not(:disabled) { transform: translateY(4px); box-shadow: 0 2px 0 #000; }
-        .btn-outline:disabled { opacity: 0.5; cursor: not-allowed; filter: grayscale(1); }
-
-        input { width: 100%; padding: 15px; margin-bottom: 10px; border-radius: 12px; border: 2px solid #1a3a5a; background: #000; color: var(--blue); text-align: center; font-size: 19px; box-sizing: border-box; }
-
-        .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 15px; background: rgba(0,0,0,0.4); padding: 10px; border-radius: 15px; }
-        .cell { width: 52px; height: 52px; background: linear-gradient(145deg, #0d253f, #1a3a5a); border: 1px solid #2a4a7a; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; cursor: pointer; box-shadow: 0 4px 0 #000; }
-        
-        .attempts-box { background: rgba(255, 215, 0, 0.1); padding: 10px; border-radius: 10px; border: 1px dashed var(--gold); margin-top: 15px; font-size: 14px; }
-        .hidden { display: none; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        :root { --gold: #ffd700; --blue: #00d4ff; --neon: 0 0 15px rgba(255, 215, 0, 0.7); }
+        * { box-sizing: border-box; direction: ltr !important; } 
+        body { margin: 0; font-family: 'Segoe UI', sans-serif; background: #000; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
+        .status-bar { position: absolute; top: 0; width: 100%; background: rgba(0, 212, 255, 0.1); border-bottom: 1px solid var(--blue); padding: 5px 0; overflow: hidden; white-space: nowrap; z-index: 10; }
+        .status-text { display: inline-block; animation: scrollText 15s linear infinite; color: var(--blue); font-size: 11px; font-weight: bold; }
+        @keyframes scrollText { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+        .container { background: rgba(0, 10, 25, 0.98); border: 2px solid var(--gold); padding: 35px 25px; border-radius: 30px; text-align: center; width: 340px; box-shadow: var(--neon); position: relative; backdrop-filter: blur(10px); }
+        .neon-line { position: absolute; top: -2px; left: 50%; transform: translateX(-50%); width: 120px; height: 4px; background: var(--gold); box-shadow: 0 0 15px var(--gold); border-radius: 10px; }
+        .title { font-size: 24px; color: var(--gold); margin-bottom: 25px; font-weight: 900; text-shadow: 0 0 15px var(--gold); }
+        .btn-3d { width: 100%; padding: 15px; margin: 8px 0; border: none; border-radius: 15px; cursor: pointer; font-weight: bold; font-size: 16px; transition: 0.2s; }
+        .btn-gold { background: linear-gradient(145deg, #ffd700, #b8860b); color: #000; box-shadow: 0 5px 0 #8a6d00; }
+        .btn-gold:active { transform: translateY(3px); box-shadow: 0 2px 0 #8a6d00; }
+        .btn-blue { background: transparent; color: var(--blue); border: 1px solid var(--blue); box-shadow: 0 0 10px rgba(0, 212, 255, 0.3); }
+        .btn-blue:active { transform: scale(0.98); }
+        input { width: 100%; padding: 15px; margin-bottom: 12px; border-radius: 12px; border: 1px solid #1a3a5a; background: #000; color: var(--blue); text-align: center; font-size: 18px; }
+        .grid { display: grid; grid-template-columns: repeat(5, 52px); gap: 8px; justify-content: center; margin-top: 15px; padding: 10px; background: rgba(0,0,0,0.5); border-radius: 15px; }
+        .cell { width: 52px; height: 52px; background: #0a1a2a; border: 1px solid #1a3a5a; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 22px; cursor: pointer; transition: 0.3s; }
+        .hidden { display: none !important; }
+        #music-ctrl { position: absolute; bottom: 20px; right: 20px; background: none; border: 1px solid var(--gold); color: var(--gold); border-radius: 50%; width: 40px; height: 40px; cursor: pointer; z-index: 20; }
     </style>
 </head>
 <body>
 
+    <audio id="bg-music" loop><source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" type="audio/mpeg"></audio>
+    <audio id="click-sound"><source src="https://www.myinstants.com/media/sounds/button-3.mp3" type="audio/mpeg"></audio>
+
+    <button id="music-ctrl" onclick="toggleMusic()">🔊</button>
+
+    <div class="status-bar">
+        <div class="status-text">SYSTEM ONLINE... SCANNING GRID V3... NEXT ROUND READY...</div>
+    </div>
+
     <div id="screen-pass" class="container">
-        <div class="title">نظام التشفير VIP</div>
-        <input type="password" id="mainKey" placeholder="ادخل كود الدخول">
-        <button class="btn-3d btn-gold" onclick="login()">فتح النظام</button>
+        <div class="neon-line"></div>
+        <div class="title">SECURE LOGIN</div>
+        <input type="password" id="mainKey" placeholder="PASSWORD">
+        <button class="btn-3d btn-gold" onclick="login()">UNLOCK</button>
     </div>
 
     <div id="screen-choice" class="container hidden">
-        <div class="title">قائمة السيرفرات</div>
-        <button class="btn-3d btn-outline" onclick="showIDScreen()">تجربة مجانية</button>
-        <button class="btn-3d btn-gold" onclick="vipAlert()">اشتراك VIP (مفعل) 💎</button>
+        <div class="neon-line"></div>
+        <div class="title">LEVEL</div>
+        <button class="btn-3d btn-gold" onclick="playClick(); showID()">FREE TRIAL</button>
+        <button class="btn-3d btn-blue" style="border-color: #f00; color: #f00;" onclick="playClick(); vipAccess()">VIP PRO</button>
     </div>
 
     <div id="screen-id" class="container hidden">
-        <div class="title">هوية المستخدم</div>
-        <input type="text" id="pID" placeholder="ID اللاعب">
-        <button class="btn-3d btn-gold" onclick="checkID()">بدء الرادار</button>
+        <div class="neon-line"></div>
+        <div class="title">VERIFY ID</div>
+        <input type="text" id="pID" placeholder="PLAYER ID">
+        <button class="btn-3d btn-gold" onclick="playClick(); checkID()">CONNECT</button>
     </div>
 
-    <div id="screen-game" class="container hidden" style="width: 340px;">
-        <div class="title" style="font-size: 18px;">تحليل الموجات الكهرومغناطيسية</div>
+    <div id="screen-game" class="container hidden">
+        <div class="neon-line"></div>
+        <div class="title" id="game-title">RADAR</div>
         <div class="grid" id="gameGrid"></div>
-        
-        <div class="attempts-box">
-            لديك <span id="tries" style="font-weight:bold; color:var(--gold)">3</span> محاولات متبقية اليوم
+        <div style="margin: 15px 0; font-size: 14px; color: var(--blue);">
+            💎: <span id="gems-count">0</span> | 💣: <span id="bombs-count">0</span>
         </div>
-
-        <button id="rescanBtn" class="btn-3d btn-outline" onclick="rescan()">إعادة المسح (Scan)</button>
-        <p style="font-size: 12px; margin-top: 5px; color: #888;">💎: <span id="s1">0</span> | 💣: <span id="s2">0</span></p>
+        <button class="btn-3d btn-blue" onclick="playClick(); renderGrid()">NEXT ROUND ⟳</button>
+        <button id="rescanBtn" class="btn-3d btn-gold" style="font-size: 14px;" onclick="playClick(); rescan()">RE-SCAN AREA</button>
     </div>
 
     <script>
-        let attempts = 3;
         const allowedIDs = ["1658237633", "1002075"];
+        const music = document.getElementById('bg-music');
+        const clickSnd = document.getElementById('click-sound');
+        let tries = localStorage.getItem('monthlyTries') ? parseInt(localStorage.getItem('monthlyTries')) : 3;
 
-        function login() {
-            if(document.getElementById('mainKey').value === "15711") {
-                hideAll(); document.getElementById('screen-choice').classList.remove('hidden');
-            } else alert("الكود خطأ!");
+        function playClick() { clickSnd.play(); }
+        function toggleMusic() {
+            if (music.paused) { music.play(); document.getElementById('music-ctrl').innerText = "🔊"; }
+            else { music.pause(); document.getElementById('music-ctrl').innerText = "🔈"; }
         }
 
-        function showIDScreen() {
-            hideAll(); document.getElementById('screen-id').classList.remove('hidden');
+        function login() {
+            playClick();
+            if(document.getElementById('mainKey').value === "15711") {
+                music.play();
+                hideAll(); document.getElementById('screen-choice').classList.remove('hidden');
+            } else alert("WRONG!");
+        }
+
+        function hideAll() { document.querySelectorAll('.container').forEach(c => c.classList.add('hidden')); }
+        function showID() { hideAll(); document.getElementById('screen-id').classList.remove('hidden'); }
+        
+        function vipAccess() {
+            let p = prompt("VIP KEY:");
+            if(p === "102545") {
+                hideAll(); document.getElementById('screen-game').classList.remove('hidden');
+                document.getElementById('game-title').innerText = "VIP RADAR";
+                renderGrid();
+            } else alert("DENIED!");
         }
 
         function checkID() {
-            let id = document.getElementById('pID').value;
-            if(allowedIDs.includes(id)) { initGame(); } else alert("ID غير مسجل!");
-        }
-
-        function vipAlert() { initGame(); }
-
-        function hideAll() {
-            document.querySelectorAll('.container').forEach(c => c.classList.add('hidden'));
-        }
-
-        function initGame() {
-            hideAll(); document.getElementById('screen-game').classList.remove('hidden');
-            renderGrid();
+            if(allowedIDs.includes(document.getElementById('pID').value)) {
+                hideAll(); document.getElementById('screen-game').classList.remove('hidden');
+                renderGrid();
+            } else alert("NOT FOUND!");
         }
 
         function renderGrid() {
             const grid = document.getElementById('gameGrid');
             grid.innerHTML = "";
-            const bombs = [0, 3]; // المربع 1 و 4 من اليمين
+            document.getElementById('gems-count').innerText = "0";
+            document.getElementById('bombs-count').innerText = "0";
+            const bombs = [0, 3]; 
             for(let i=0; i<25; i++) {
                 let cell = document.createElement('div');
                 cell.className = 'cell';
                 cell.onclick = () => {
+                    playClick();
                     if(cell.innerHTML !== "") return;
                     if(bombs.includes(i)) {
                         cell.innerHTML = "💣"; cell.style.background = "rgba(255,0,0,0.2)";
-                        document.getElementById('s2').innerText = "1";
+                        document.getElementById('bombs-count').innerText = "1";
                     } else {
                         cell.innerHTML = "💎"; cell.style.background = "rgba(0,212,255,0.2)";
-                        let s = document.getElementById('s1');
-                        s.innerText = parseInt(s.innerText) + 1;
+                        let g = document.getElementById('gems-count');
+                        g.innerText = parseInt(g.innerText) + 1;
                     }
                 };
                 grid.appendChild(cell);
@@ -113,18 +134,12 @@
         }
 
         function rescan() {
-            if(attempts > 1) {
-                attempts--;
-                document.getElementById('tries').innerText = attempts;
+            if(tries > 0) {
+                tries--;
+                localStorage.setItem('monthlyTries', tries);
                 renderGrid();
-                document.getElementById('s1').innerText = "0";
-                document.getElementById('s2').innerText = "0";
-            } else {
-                document.getElementById('tries').innerText = "0";
-                document.getElementById('rescanBtn').disabled = true;
-                document.getElementById('rescanBtn').innerText = "انتهت محاولاتك!";
-                alert("لقد استنفدت جميع محاولات المسح لهذا اليوم.");
-            }
+                alert("Remaining Tries: " + tries);
+            } else alert("No more tries this month!");
         }
     </script>
 </body>
